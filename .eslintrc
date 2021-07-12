@@ -13,7 +13,8 @@
   "extends": ["airbnb-typescript"],
   "rules": {
     "arrow-body-style": "off",
-    "arrow-parens": ["error", "as-needed"]
+    "arrow-parens": ["error", "as-needed"],
+    "import/prefer-default-export": "off"
   },
   "settings": {
     "react": {
