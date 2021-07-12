@@ -4,10 +4,15 @@
   "description": "Conway's Game of Life",
   "main": "src/index.ts",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint src"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",
+    "@typescript-eslint/eslint-plugin": "^4.28.3",
+    "@typescript-eslint/parser": "^4.28.3",
+    "eslint": "^7.30.0",
+    "eslint-config-airbnb-typescript": "^12.3.1",
     "jest": "^27.0.6",
     "ts-jest": "^27.0.3",
     "typescript": "^4.3.5"

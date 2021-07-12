@@ -1,4 +1,4 @@
-import { createGameOfLife, GameOfLife } from '../gameOfLife';
+import { createGameOfLife } from '../gameOfLife';
 import { Cell, Grid } from '../grid';
 
 describe('GameOfLife', () => {
