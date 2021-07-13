@@ -1,6 +1,6 @@
 export enum Cell {
   Dead = 0,
-  Alive = 1,
+  Living = 1,
 }
 
 export type Row = Cell[];

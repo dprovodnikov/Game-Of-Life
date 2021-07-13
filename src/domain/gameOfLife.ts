@@ -3,12 +3,12 @@ import { getNextCellState } from './rules';
 
 export interface GameOfLife {
   tick(): void;
-  populateEachCell(populator: CellPopulator): void;
+  setEachCell(evaluate: CellEvaluator): void;
   getGrid(): Grid;
   getCell(rowIndex: number, cellIndex: number): Cell;
 }
 
-export type CellPopulator = (rowIndex: number, cellIndex: number) => Cell;
+export type CellEvaluator = (rowIndex: number, cellIndex: number) => Cell;
 
 interface CellWithPosition {
   rowIndex: number;
@@ -17,17 +17,17 @@ interface CellWithPosition {
 }
 
 export const createGameOfLife = (numberOfRows: number, numberOfCells: number): GameOfLife => {
-  const grid: Grid = createDeadGrid(numberOfRows, numberOfCells);
+  let grid: Grid = createDeadGrid(numberOfRows, numberOfCells);
 
-  const forEachCell = (fn: (cell: CellWithPosition) => void) => {
-    grid.forEach((row, rowIndex) => {
-      row.forEach((cell, cellIndex) => {
-        fn({ rowIndex, cellIndex, value: cell });
+  const mapEachCell = (fn: (cell: CellWithPosition) => Cell): Grid => {
+    return grid.map((row, rowIndex) => {
+      return row.map((cell, cellIndex) => {
+        return fn({ value: cell, rowIndex, cellIndex });
       });
     });
   };
 
-  const getLivingNeighborsCount = (rowIndex: number, cellIndex: number): number => {
+  const countLivingNeighbors = (rowIndex: number, cellIndex: number): number => {
     const topNeighbor = grid[rowIndex - 1]?.[cellIndex];
     const topLeftNeighbor = grid[rowIndex - 1]?.[cellIndex - 1];
     const topRightNeighbor = grid[rowIndex - 1]?.[cellIndex + 1];
@@ -49,35 +49,20 @@ export const createGameOfLife = (numberOfRows: number, numberOfCells: number): G
     ];
 
     return neighbors
-      .filter(n => !!n)
+      .filter(n => n === Cell.Living)
       .reduce((a, b) => a + b, 0);
-  };
-
-  const updateCellsOnGrid = (cells: CellWithPosition[]) => {
-    cells.forEach(cell => {
-      grid[cell.rowIndex][cell.cellIndex] = cell.value;
-    });
   };
 
   return {
     tick() {
-      const updatedCells: CellWithPosition[] = [];
-
-      forEachCell(cell => {
-        const livingNeighborsCount = getLivingNeighborsCount(cell.rowIndex, cell.cellIndex);
-
-        updatedCells.push(({
-          ...cell,
-          value: getNextCellState(cell.value, livingNeighborsCount),
-        }));
+      grid = mapEachCell(({ value: currentState, rowIndex, cellIndex }) => {
+        return getNextCellState(currentState, countLivingNeighbors(rowIndex, cellIndex));
       });
-
-      updateCellsOnGrid(updatedCells);
     },
 
-    populateEachCell(populateCell: CellPopulator) {
-      forEachCell(({ rowIndex, cellIndex }) => {
-        grid[rowIndex][cellIndex] = populateCell(rowIndex, cellIndex);
+    setEachCell(evaluateCell: CellEvaluator) {
+      grid = mapEachCell(({ rowIndex, cellIndex }) => {
+        return evaluateCell(rowIndex, cellIndex);
       });
     },
 

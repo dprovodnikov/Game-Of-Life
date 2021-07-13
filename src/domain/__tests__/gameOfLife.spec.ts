@@ -24,12 +24,12 @@ describe('GameOfLife', () => {
   it('allows to populate each cell', () => {
     const game = createGameOfLife(3, 3);
     const desiredGrid: Grid = [
-      [Cell.Dead, Cell.Dead, Cell.Alive],
+      [Cell.Dead, Cell.Dead, Cell.Living],
       [Cell.Dead, Cell.Dead, Cell.Dead],
-      [Cell.Alive, Cell.Dead, Cell.Dead],
+      [Cell.Living, Cell.Dead, Cell.Dead],
     ];
 
-    game.populateEachCell((rowIndex, cellIndex) => {
+    game.setEachCell((rowIndex, cellIndex) => {
       return desiredGrid[rowIndex][cellIndex];
     });
 
@@ -51,10 +51,10 @@ describe('GameOfLife', () => {
       const game = createGameOfLife(2, 2);
       const initialGrid: Grid = [
         [Cell.Dead, Cell.Dead],
-        [Cell.Alive, Cell.Dead],
+        [Cell.Living, Cell.Dead],
       ];
 
-      game.populateEachCell((rowIndex, cellIndex) => {
+      game.setEachCell((rowIndex, cellIndex) => {
         return initialGrid[rowIndex][cellIndex];
       });
       game.tick();
@@ -68,44 +68,44 @@ describe('GameOfLife', () => {
     it('keeps a cell alive if it has minimum required neighbors to live', () => {
       const game = createGameOfLife(3, 3);
       const initialGrid: Grid = [
-        [Cell.Alive, Cell.Dead, Cell.Dead],
-        [Cell.Dead, Cell.Alive, Cell.Dead],
-        [Cell.Alive, Cell.Dead, Cell.Dead],
+        [Cell.Living, Cell.Dead, Cell.Dead],
+        [Cell.Dead, Cell.Living, Cell.Dead],
+        [Cell.Living, Cell.Dead, Cell.Dead],
       ];
 
-      game.populateEachCell((rowIndex, cellIndex) => {
+      game.setEachCell((rowIndex, cellIndex) => {
         return initialGrid[rowIndex][cellIndex];
       });
       game.tick();
 
-      expect(game.getCell(1, 1)).toBe(Cell.Alive);
+      expect(game.getCell(1, 1)).toBe(Cell.Living);
     });
 
     it('keeps a cell alive if it has maximum allowed neighbors to live', () => {
       const game = createGameOfLife(3, 3);
       const initialGrid: Grid = [
-        [Cell.Alive, Cell.Dead, Cell.Dead],
-        [Cell.Alive, Cell.Alive, Cell.Dead],
-        [Cell.Alive, Cell.Dead, Cell.Dead],
+        [Cell.Living, Cell.Dead, Cell.Dead],
+        [Cell.Living, Cell.Living, Cell.Dead],
+        [Cell.Living, Cell.Dead, Cell.Dead],
       ];
 
-      game.populateEachCell((rowIndex, cellIndex) => {
+      game.setEachCell((rowIndex, cellIndex) => {
         return initialGrid[rowIndex][cellIndex];
       });
       game.tick();
 
-      expect(game.getCell(1, 1)).toBe(Cell.Alive);
+      expect(game.getCell(1, 1)).toBe(Cell.Living);
     });
 
     it('kills a cell if it has too many living neighbors', () => {
       const game = createGameOfLife(3, 3);
       const initialGrid: Grid = [
-        [Cell.Alive, Cell.Alive, Cell.Dead],
-        [Cell.Alive, Cell.Alive, Cell.Dead],
-        [Cell.Alive, Cell.Dead, Cell.Dead],
+        [Cell.Living, Cell.Living, Cell.Dead],
+        [Cell.Living, Cell.Living, Cell.Dead],
+        [Cell.Living, Cell.Dead, Cell.Dead],
       ];
 
-      game.populateEachCell((rowIndex, cellIndex) => {
+      game.setEachCell((rowIndex, cellIndex) => {
         return initialGrid[rowIndex][cellIndex];
       });
       game.tick();
@@ -116,17 +116,17 @@ describe('GameOfLife', () => {
     it('brings a cell to life if it has a required number of living neighbors', () => {
       const game = createGameOfLife(3, 3);
       const initialGrid: Grid = [
-        [Cell.Alive, Cell.Dead, Cell.Dead],
-        [Cell.Dead, Cell.Alive, Cell.Dead],
-        [Cell.Alive, Cell.Dead, Cell.Dead],
+        [Cell.Living, Cell.Dead, Cell.Dead],
+        [Cell.Dead, Cell.Living, Cell.Dead],
+        [Cell.Living, Cell.Dead, Cell.Dead],
       ];
 
-      game.populateEachCell((rowIndex, cellIndex) => {
+      game.setEachCell((rowIndex, cellIndex) => {
         return initialGrid[rowIndex][cellIndex];
       });
       game.tick();
 
-      expect(game.getCell(1, 0)).toBe(Cell.Alive);
+      expect(game.getCell(1, 0)).toBe(Cell.Living);
     });
   });
 
@@ -137,12 +137,12 @@ describe('GameOfLife', () => {
           const game = createGameOfLife(4, 4);
           const initialGrid: Grid = [
             [Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead],
-            [Cell.Dead, Cell.Alive, Cell.Alive, Cell.Dead],
-            [Cell.Dead, Cell.Alive, Cell.Alive, Cell.Dead],
+            [Cell.Dead, Cell.Living, Cell.Living, Cell.Dead],
+            [Cell.Dead, Cell.Living, Cell.Living, Cell.Dead],
             [Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead],
           ];
 
-          game.populateEachCell((rowIndex, cellIndex) => {
+          game.setEachCell((rowIndex, cellIndex) => {
             return initialGrid[rowIndex][cellIndex];
           });
 
@@ -157,13 +157,13 @@ describe('GameOfLife', () => {
           const game = createGameOfLife(5, 6);
           const initialGrid: Grid = [
             [Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead],
-            [Cell.Dead, Cell.Dead, Cell.Alive, Cell.Alive, Cell.Dead, Cell.Dead],
-            [Cell.Dead, Cell.Alive, Cell.Dead, Cell.Dead, Cell.Alive, Cell.Dead],
-            [Cell.Dead, Cell.Dead, Cell.Alive, Cell.Alive, Cell.Dead, Cell.Dead],
+            [Cell.Dead, Cell.Dead, Cell.Living, Cell.Living, Cell.Dead, Cell.Dead],
+            [Cell.Dead, Cell.Living, Cell.Dead, Cell.Dead, Cell.Living, Cell.Dead],
+            [Cell.Dead, Cell.Dead, Cell.Living, Cell.Living, Cell.Dead, Cell.Dead],
             [Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead],
           ];
 
-          game.populateEachCell((rowIndex, cellIndex) => {
+          game.setEachCell((rowIndex, cellIndex) => {
             return initialGrid[rowIndex][cellIndex];
           });
 
@@ -179,21 +179,21 @@ describe('GameOfLife', () => {
         const game = createGameOfLife(5, 5);
         const position1: Grid = [
           [Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead],
-          [Cell.Dead, Cell.Dead, Cell.Alive, Cell.Dead, Cell.Dead],
-          [Cell.Dead, Cell.Dead, Cell.Alive, Cell.Dead, Cell.Dead],
-          [Cell.Dead, Cell.Dead, Cell.Alive, Cell.Dead, Cell.Dead],
+          [Cell.Dead, Cell.Dead, Cell.Living, Cell.Dead, Cell.Dead],
+          [Cell.Dead, Cell.Dead, Cell.Living, Cell.Dead, Cell.Dead],
+          [Cell.Dead, Cell.Dead, Cell.Living, Cell.Dead, Cell.Dead],
           [Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead],
         ];
         const position2: Grid = [
           [Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead],
           [Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead],
-          [Cell.Dead, Cell.Alive, Cell.Alive, Cell.Alive, Cell.Dead],
+          [Cell.Dead, Cell.Living, Cell.Living, Cell.Living, Cell.Dead],
           [Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead],
           [Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead, Cell.Dead],
         ];
 
         it('changes after one tick', () => {
-          game.populateEachCell((rowIndex, cellIndex) => {
+          game.setEachCell((rowIndex, cellIndex) => {
             return position1[rowIndex][cellIndex];
           });
 
@@ -203,7 +203,7 @@ describe('GameOfLife', () => {
         });
 
         it('changes back after the second tick', () => {
-          game.populateEachCell((rowIndex, cellIndex) => {
+          game.setEachCell((rowIndex, cellIndex) => {
             return position2[rowIndex][cellIndex];
           });
 
