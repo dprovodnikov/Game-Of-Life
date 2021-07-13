@@ -2,16 +2,6 @@ import { createGameOfLife } from '../gameOfLife';
 import { Cell, Grid } from '../grid';
 
 describe('GameOfLife', () => {
-  it('returns a copy of grid on demand', () => {
-    const game = createGameOfLife(3, 3);
-
-    const gridCopyA = game.getGrid();
-    const gridCopyB = game.getGrid();
-
-    expect(gridCopyA).not.toBe(gridCopyB);
-    expect(gridCopyA).toEqual(gridCopyB);
-  });
-
   it('initializes to a completely dead grid by default', () => {
     const game = createGameOfLife(3, 3);
     expect(game.getGrid()).toEqual([

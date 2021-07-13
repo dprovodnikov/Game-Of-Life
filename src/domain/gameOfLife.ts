@@ -73,9 +73,7 @@ export const createGameOfLife = (numberOfRows: number, numberOfCells: number): G
     },
 
     getGrid() {
-      const deepCopy = JSON.parse(JSON.stringify(grid));
-
-      return deepCopy;
+      return grid;
     },
 
     getCell(rowIndex: number, cellIndex: number) {
