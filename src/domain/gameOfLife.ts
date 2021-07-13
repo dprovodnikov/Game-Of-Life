@@ -54,9 +54,7 @@ export const createGameOfLife = (numberOfRows: number, numberOfCells: number): G
       bottomRightNeighbor,
     ];
 
-    return neighbors
-      .filter(n => n === Cell.Living)
-      .reduce((a, b) => a + b, 0);
+    return neighbors.filter(n => n === Cell.Living).length;
   };
 
   return {
