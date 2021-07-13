@@ -6,9 +6,15 @@ export interface GameOfLife {
   setEachCell(evaluate: CellEvaluator): void;
   getGrid(): Grid;
   getCell(rowIndex: number, cellIndex: number): Cell;
+  getDimensions(): GridDimensions;
 }
 
 export type CellEvaluator = (rowIndex: number, cellIndex: number) => Cell;
+
+export interface GridDimensions {
+  numberOfRows: number;
+  numberOfCells: number;
+}
 
 interface CellWithPosition {
   rowIndex: number;
@@ -74,6 +80,10 @@ export const createGameOfLife = (numberOfRows: number, numberOfCells: number): G
 
     getCell(rowIndex: number, cellIndex: number) {
       return grid[rowIndex][cellIndex];
+    },
+
+    getDimensions() {
+      return { numberOfRows, numberOfCells };
     },
   };
 };

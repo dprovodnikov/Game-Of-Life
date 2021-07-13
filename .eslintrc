@@ -14,7 +14,9 @@
   "rules": {
     "arrow-body-style": "off",
     "arrow-parens": ["error", "as-needed"],
-    "import/prefer-default-export": "off"
+    "import/prefer-default-export": "off",
+    "react/prop-types": "off",
+    "no-confusing-arrow": "off"
   },
   "settings": {
     "react": {
