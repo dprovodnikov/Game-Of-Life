@@ -15,10 +15,14 @@ export const useTicker = (game: Domain.GameOfLife, tickIntervalMs: number) => {
   useEffect(() => {
     fillGridRandomly();
 
-    setInterval(() => {
+    const interval = setInterval(() => {
       game.tick();
       setGrid(game.getGrid());
     }, tickIntervalMs);
+
+    return () => {
+      clearInterval(interval);
+    };
   }, []);
 
   return grid;
