@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react';
-import * as domain from '../domain';
+import * as Domain from '../domain';
 
-export const useTicker = (game: domain.GameOfLife, tickIntervalMs: number) => {
+export const useTicker = (game: Domain.GameOfLife, tickIntervalMs: number) => {
   const [grid, setGrid] = useState(() => game.getGrid());
 
   const fillGridRandomly = () => {
     game.setEachCell(() => {
       return Math.random() < 0.33
-        ? domain.Cell.Living
-        : domain.Cell.Dead;
+        ? Domain.Cell.Living
+        : Domain.Cell.Dead;
     });
   };
 
