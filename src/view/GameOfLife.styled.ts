@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import * as domain from '../domain/grid';
+import * as Domain from '../domain/grid';
 
 const cellSide = 15;
 const cellGap = 3;
@@ -16,8 +16,8 @@ export const Grid = styled.div<{ rows: number; cells: number }>`
   margin: auto;
 `;
 
-export const Cell = styled.div<{ status: domain.Cell }>`
+export const Cell = styled.div<{ status: Domain.Cell }>`
   height: ${cellSide}px;
   width: ${cellSide}px;
-  background-color: ${props => props.status === domain.Cell.Living ? 'black' : 'white'}
+  background-color: ${props => props.status === Domain.Cell.Living ? 'black' : 'white'}
 `;

@@ -1,21 +1,22 @@
-import React, { useState, FC } from 'react';
-import * as domain from '../domain/gameOfLife';
-import { Grid, Cell } from './GameOfLife.styled';
+import React, { FC } from 'react';
+import * as Domain from '../domain';
+import * as Styled from './GameOfLife.styled';
+import { useTicker } from './useTicker';
 
 interface Props {
-  game: domain.GameOfLife,
+  game: Domain.GameOfLife,
 }
 
 export const GameOfLife: FC<Props> = ({ game }) => {
-  const [grid] = useState(() => game.getGrid());
+  const grid = useTicker(game, 500);
   const dimensions = game.getDimensions();
 
   return (
-    <Grid rows={dimensions.numberOfRows} cells={dimensions.numberOfCells}>
+    <Styled.Grid rows={dimensions.numberOfRows} cells={dimensions.numberOfCells}>
       {grid.map((row, rowIndex) => {
         return row.map((cell, cellIndex) => {
           return (
-            <Cell
+            <Styled.Cell
               /* eslint-disable-next-line */
               key={`${rowIndex}_${cellIndex}`}
               status={cell}
@@ -23,6 +24,6 @@ export const GameOfLife: FC<Props> = ({ game }) => {
           );
         });
       })}
-    </Grid>
+    </Styled.Grid>
   );
 };
